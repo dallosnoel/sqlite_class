@@ -2,7 +2,7 @@ import sqlite3
 
 con = sqlite3.connect(":memory:")
 
-cur = con.cursor
+cur = con.cursor()
 
 class Adatbazis:
     def __init__(self, sor):
@@ -19,7 +19,7 @@ with open("sulipysqlite.txt", encoding="latin2") as f:
     
 cur.execute("DROP TABLE IF EXISTS programozok")
 
-cur.execute("""CRATE TABLE programozok
+cur.execute("""CREATE TABLE programozok
         (ev INTEGER,
         nyelv TEXT,
         kereszt TEXT,
@@ -33,7 +33,7 @@ for i in data:
 con.commit()
 
 
-msg = cur.execute("SELECT * FROM programzok")
+msg = cur.execute("SELECT * FROM programozok")
 
 print(msg.fetchall())
 
