@@ -1,0 +1,61 @@
+import sqlite3
+
+con = sqlite3.connect(":memory:")
+
+cur = con.cursor()
+
+class Per:
+    def __init__(self, sor):
+        rendszam, nev, jel, tomeg, *feleselg = sor.strip().split(",")
+        self.rendszam 	= rendszam
+        self.nev		= nev
+        self.jel		= jel
+        self.tomeg = tomeg
+        
+with open("periodic.csv", encoding = "latin2") as f:
+    elso_sor = f.readline()
+    data = [Per(sor) for sor in f]
+    
+cur.execute("DROP TABLE IF EXISTS peri")
+cur.execute("CREATE TABLE peri(rendszam, nev, jel, tomeg)")
+
+for i in data:
+    adat = [(i.rendszam, i.nev, i.jel, i.tomeg)]
+    cur.executemany("INSERT INTO peri VALUES(?, ?, ?, ?)", adat)
+
+con.commit()
+
+#minden adat megjelenítése
+'''
+for row in cur.execute("SELECT * FROM peri"):
+    print(f"Rendszám: {row[0]}\t Név: {row[1]}   Jel: {row[2]}")
+'''
+
+print(f"3. feladat: Elemek száma:",len([sor for sor in cur.execute("SELECT * FROM peri")]))
+
+def rendszam(renszam):
+    for row in cur.execute("SELECT * FROM peri"):
+        if row[0] == str(renszam):
+            print(f"Rendszám: {row[0]}\tNév: {row[1]}   Jel: {row[2]}\tTömeg: {row[3]}")
+
+def neve(nev2):
+    for row in cur.execute("SELECT * FROM peri"):
+        if row[1] == nev2:
+            print(f"Rendszám: {row[0]}\tNév: {row[1]}   Jel: {row[2]}\tTömeg: {row[3]}")
+
+def vegyjel(jel):
+    for row in cur.execute("SELECT * FROM peri"):
+        if row[2] == jel:
+            print(f"Rendszám: {row[0]}\tNév: {row[1]}   Jel: {row[2]}\tTömeg: {row[3]}")
+
+def tomeg(tomege):
+    for row in cur.execute("SELECT * FROM peri"):
+        if row[3] == str(tomege):
+            print(f"Rendszám: {row[0]}\tNév: {row[1]}   Jel: {row[2]}\tTömeg: {row[3]}")
+            
+
+
+
+
+    
+
