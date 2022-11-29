@@ -11,17 +11,18 @@ class Per:
         self.nev		= nev
         self.jel		= jel
         self.tomeg = tomeg
+        self.kertom = str(round(float(tomeg)))
         
 with open("periodic.csv", encoding = "latin2") as f:
     elso_sor = f.readline()
     data = [Per(sor) for sor in f]
     
 cur.execute("DROP TABLE IF EXISTS peri")
-cur.execute("CREATE TABLE peri(rendszam, nev, jel, tomeg)")
+cur.execute("CREATE TABLE peri(rendszam, nev, jel, tomeg, kertom)")
 
 for i in data:
-    adat = [(i.rendszam, i.nev, i.jel, i.tomeg)]
-    cur.executemany("INSERT INTO peri VALUES(?, ?, ?, ?)", adat)
+    adat = [(i.rendszam, i.nev, i.jel, i.tomeg, i.kertom)]
+    cur.executemany("INSERT INTO peri VALUES(?, ?, ?, ?, ?)", adat)
 
 con.commit()
 
@@ -50,7 +51,7 @@ def vegyjel(jel):
 
 def tomeg(tomege):
     for row in cur.execute("SELECT * FROM peri"):
-        if row[3] == str(tomege):
+        if row[3] == str(tomege) or str(round(float(row[3]), 1)) == str(tomege) or str(round(float(row[3]), 2)) == str(tomege):
             print(f"Rendszám: {row[0]}\tNév: {row[1]}   Jel: {row[2]}\tTömeg: {row[3]}")
             
 
