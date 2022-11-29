@@ -40,12 +40,12 @@ def rendszam(renszam):
 
 def neve(nev2):
     for row in cur.execute("SELECT * FROM peri"):
-        if row[1] == nev2:
+        if row[1] == nev2.lower().capitalize():
             print(f"Rendszám: {row[0]}\tNév: {row[1]}   Jel: {row[2]}\tTömeg: {row[3]}")
 
 def vegyjel(jel):
     for row in cur.execute("SELECT * FROM peri"):
-        if row[2] == jel:
+        if row[2] == jel.lower().capitalize():
             print(f"Rendszám: {row[0]}\tNév: {row[1]}   Jel: {row[2]}\tTömeg: {row[3]}")
 
 def tomeg(tomege):
